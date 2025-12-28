@@ -6,7 +6,7 @@
 /*   By: luricci <luricci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:16:25 by luricci           #+#    #+#             */
-/*   Updated: 2025/12/23 14:34:07 by luricci          ###   ########.fr       */
+/*   Updated: 2025/12/28 17:47:15 by luricci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdint.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 256

@@ -6,13 +6,13 @@
 /*   By: luricci <luricci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:15:25 by luricci           #+#    #+#             */
-/*   Updated: 2025/12/23 16:03:26 by luricci          ###   ########.fr       */
+/*   Updated: 2025/12/28 18:00:54 by luricci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*read_file(int fd, char *res)
+char	*read_file(int fd, char *stash)
 {
 	char	*buffer;
 	int		byte_read;
@@ -21,23 +21,23 @@ char	*read_file(int fd, char *res)
 	if (!buffer)
 		return (NULL);
 	byte_read = 1;
-	while (!ft_strchr(res, '\n') && byte_read != 0)
+	while (!ft_strchr(stash, '\n') && byte_read != 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
 		{
 			free(buffer);
-			free(res);
+			free(stash);
 			return (NULL);
 		}
 		buffer[byte_read] = '\0';
-		res = ft_strjoin(res, buffer);
+		stash = ft_strjoin(stash, buffer);
 	}
 	free(buffer);
-	return (res);
+	return (stash);
 }
 
-char	*ft_line(char *buffer)
+char	*ft_line(char *stash)
 {
 	char	*line;
 	int		len;
@@ -45,25 +45,25 @@ char	*ft_line(char *buffer)
 
 	len = 0;
 	j = 0;
-	if (!buffer || !buffer[j])
+	if (!stash || !stash[j])
 		return (NULL);
-	while (buffer[len] && buffer[len] != '\n')
+	while (stash[len] && stash[len] != '\n')
 		len++;
 	line = ft_calloc((len + 2), sizeof(char));
 	if (!line)
 		return (NULL);
-	while (buffer[j] && buffer[j] != '\n')
+	while (stash[j] && stash[j] != '\n')
 	{
-		line[j] = buffer[j];
+		line[j] = stash[j];
 		j++;
 	}
-	if (buffer[j] && buffer[j] == '\n')
+	if (stash[j] && stash[j] == '\n')
 		line[j++] = '\n';
 	line[j] = '\0';
 	return (line);
 }
 
-char	*ft_next(char *buffer)
+char	*ft_next(char *stash)
 {
 	char	*line;
 	int		len;
@@ -71,34 +71,39 @@ char	*ft_next(char *buffer)
 
 	len = 0;
 	j = 0;
-	while (buffer[len] && buffer[len] != '\n')
+	while (stash[len] && stash[len] != '\n')
 		len++;
-	if (!buffer[len])
+	if (!stash[len])
 	{
-		free(buffer);
+		free(stash);
 		return (NULL);
 	}
-	line = ft_calloc((ft_strlen(buffer) - len + 1), sizeof(char));
+	line = ft_calloc((ft_strlen(stash) - len + 1), sizeof(char));
+	if (!line)
+	{
+		free(stash);
+		return (NULL);
+	}
 	len++;
 	j = 0;
-	while (buffer[len])
-		line[j++] = buffer[len++];
-	free(buffer);
+	while (stash[len])
+		line[j++] = stash[len++];
+	free(stash);
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*stash;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = read_file(fd, buffer);
-	if (!buffer)
+	stash = read_file(fd, stash);
+	if (!stash)
 		return (NULL);
-	line = ft_line(buffer);
-	buffer = ft_next(buffer);
+	line = ft_line(stash);
+	stash = ft_next(stash);
 	return (line);
 }
 
