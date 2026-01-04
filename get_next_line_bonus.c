@@ -6,7 +6,7 @@
 /*   By: luricci <luricci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 16:10:08 by luricci           #+#    #+#             */
-/*   Updated: 2025/12/28 18:47:10 by luricci          ###   ########.fr       */
+/*   Updated: 2026/01/04 19:42:16 by luricci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ft_line(char *stash)
 
 char	*ft_next(char *stash)
 {
-	char	*line;
+	char	*rest;
 	int		len;
 	int		j;
 
@@ -78,8 +78,8 @@ char	*ft_next(char *stash)
 		free(stash);
 		return (NULL);
 	}
-	line = ft_calloc((ft_strlen(stash) - len + 1), sizeof(char));
-	if (!line)
+	rest = ft_calloc((ft_strlen(stash) - len + 1), sizeof(char));
+	if (!rest)
 	{
 		free(stash);
 		return (NULL);
@@ -87,9 +87,9 @@ char	*ft_next(char *stash)
 	len++;
 	j = 0;
 	while (stash[len])
-		line[j++] = stash[len++];
+		rest[j++] = stash[len++];
 	free(stash);
-	return (line);
+	return (rest);
 }
 
 char	*get_next_line(int fd)

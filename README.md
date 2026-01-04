@@ -110,11 +110,9 @@ int main(void)
 
 ## Resources
 
-### Technical References
-
-- `man 2 read`
-- `man 3 malloc`
-- GNU C Library documentation
+- Youtube
+- Internet
+- man read
 - 42 get_next_line subject PDF
 
 ### AI Usage
